@@ -1,7 +1,7 @@
 //store the gameboard as an array inside of a Gameboard object
 const gameBoard = (() => {
   const board = [];
-  const getBoard = () => board;
+
   //Add clear function
 
   function createBoard(rows, columns) {
@@ -12,10 +12,17 @@ const gameBoard = (() => {
       }
     }
   }
+  const getBoard = () => board;
+
   const checkCell = (row, column) => {
     if (board[row][column] === undefined) {
       return true;
     }
+  };
+  const addToken = (cell, token) => {
+    if (!cell.innerHTML === "") return;//check if cell is in use
+
+    cell.innerHTML = token
   };
 
   function checkWin() {
@@ -83,5 +90,3 @@ const gameBoard = (() => {
 
 //   return { index, markCell, getToken };
 // }
-gameBoard.createBoard(3, 3);
-console.log(gameBoard.getBoard());
