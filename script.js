@@ -20,9 +20,9 @@ const gameBoard = (() => {
     }
   };
   const addToken = (cell, token) => {
-    if (!cell.innerHTML === "") return;//check if cell is in use
+    if (!cell.innerHTML === "") return; //check if cell is in use
 
-    cell.innerHTML = token
+    cell.innerHTML = token;
   };
 
   function checkWin() {
@@ -59,34 +59,39 @@ const gameBoard = (() => {
     return false;
   }
 
-  return { getBoard, createBoard, checkCell, checkWin }; //return other board functions
+  return { getBoard, createBoard, checkCell, addToken, checkWin }; //return all board functions
 })();
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
-// function gamePlay() {}
+function gamePlay(player1, player2) {
+  let playerOneName = player1;
+  let playerTwoName = player2;
 
-// function createPlayer (name, team, active) {
-// 	return {name, team}, active;
-// };
-// // const players = [
-//   {
-//     name: playerOneName,
-//     userToken: "X",
-//     active: true,
-// //   },
-// //   {
-// //     name: playerTwoName,
-// //     userToken: "O",
-//        active: false,
-// //   },
-// ];
+  const players = [
+    {
+      name: playerOneName,
+      userToken: "X",
+    },
+    {
+      name: playerTwoName,
+      userToken: "O",
+    },
+  ];
+  let activePlayer = players[0];
+  function switchTurn() {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  }
 
-// function createCell(index) {
-//   let cellToken = "";
-//   const markCell = (token) => {
-//     cellToken = token;
-//   };
-//   const getToken = () => cellToken;
+  const getActivePlayer = () => activePlayer;
 
-//   return { index, markCell, getToken };
-// }
+  return { switchTurn, getActivePlayer };
+  // function createCell(index) {
+  //   let cellToken = "";
+  //   const markCell = (token) => {
+  //     cellToken = token;
+  //   };
+  //   const getToken = () => cellToken;
+
+  //   return { index, markCell, getToken };
+  // }
+}
