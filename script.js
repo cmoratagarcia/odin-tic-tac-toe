@@ -16,13 +16,10 @@ function gameBoard() {
   }
   const getBoard = () => board;
 
-  // const checkCell = (row, column) => {
-  //   if (board[row][column] === undefined) {
-  //     return true;
-  //   }
-  // };
   const addToken = (cell, token) => {
-    if (!cell.innerHTML === "") return; //check if cell is in use
+    if (!cell.innerHTML === "") {
+      alert("This cell is taken!");
+    } //check if cell is in use
 
     cell.innerHTML = token;
   };
@@ -79,6 +76,7 @@ function gamePlay(player1, player2) {
       userToken: "O",
     },
   ];
+
   let activePlayer = players[0];
   function switchTurn() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -94,9 +92,16 @@ function renderGame() {
     let container = document.querySelector(".container");
     let cell = document.createElement("button");
     cell.classList.add("cell");
+    cell.innerText = "";
     container.appendChild(cell);
+
+    cell.addEventListener("click", () => playRound(cell));
   }
+
+  function playRound(cell) {
+    gameBoard().addToken(cell, "Test");
+  }
+
   return { createCell };
 }
 gameBoard().createBoard();
-console.log(gameBoard.getBoard());
