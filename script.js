@@ -17,7 +17,7 @@ function gameBoard() {
   const getBoard = () => board;
 
   const addToken = (cell, token) => {
-    if (!cell.innerHTML === "") {
+    if (cell.innerHTML !== "") {
       alert("This cell is taken!");
     } //check if cell is in use
 
@@ -82,7 +82,7 @@ function gamePlay(player1, player2) {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   }
 
-  const getActivePlayer = () => activePlayer;
+  const getActivePlayer = () => activePlayer.userToken;
 
   return { switchTurn, getActivePlayer };
 }
@@ -99,7 +99,9 @@ function renderGame() {
   }
 
   function playRound(cell) {
-    gameBoard().addToken(cell, "Test");
+    gamePlay().switchTurn();
+    let activeToken = gamePlay().getActivePlayer();
+    gameBoard().addToken(cell, activeToken);
   }
 
   return { createCell };
