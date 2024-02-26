@@ -1,24 +1,26 @@
 //store the gameboard as an array inside of a Gameboard object
-const gameBoard = (() => {
+function gameBoard() {
   const board = [];
+  const rows = 3;
+  const columns = 3;
 
   //Add clear function
 
-  function createBoard(rows, columns) {
+  function createBoard() {
     for (let i = 0; i < rows; i++) {
       board[i] = [];
       for (let j = 0; j < columns; j++) {
-        board[i].push(board[i][j]); //This will eventually be a button for each cell
+        board[i].push(renderGame().createCell()); //This will eventually be a button for each cell
       }
     }
   }
   const getBoard = () => board;
 
-  const checkCell = (row, column) => {
-    if (board[row][column] === undefined) {
-      return true;
-    }
-  };
+  // const checkCell = (row, column) => {
+  //   if (board[row][column] === undefined) {
+  //     return true;
+  //   }
+  // };
   const addToken = (cell, token) => {
     if (!cell.innerHTML === "") return; //check if cell is in use
 
@@ -59,8 +61,8 @@ const gameBoard = (() => {
     return false;
   }
 
-  return { getBoard, createBoard, checkCell, addToken, checkWin }; //return all board functions
-})();
+  return { getBoard, createBoard, addToken, checkWin }; //return all board functions
+}
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
 function gamePlay(player1, player2) {
@@ -85,13 +87,16 @@ function gamePlay(player1, player2) {
   const getActivePlayer = () => activePlayer;
 
   return { switchTurn, getActivePlayer };
-  // function createCell(index) {
-  //   let cellToken = "";
-  //   const markCell = (token) => {
-  //     cellToken = token;
-  //   };
-  //   const getToken = () => cellToken;
-
-  //   return { index, markCell, getToken };
-  // }
 }
+
+function renderGame() {
+  function createCell() {
+    let container = document.querySelector(".container");
+    let cell = document.createElement("button");
+    cell.classList.add("cell");
+    container.appendChild(cell);
+  }
+  return { createCell };
+}
+gameBoard().createBoard();
+console.log(gameBoard.getBoard());
