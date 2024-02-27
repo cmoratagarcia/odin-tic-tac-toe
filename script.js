@@ -81,9 +81,22 @@ function playerControls(player1, player2) {
 
   const getActivePlayer = () => activePlayer;
 
-  return { switchTurn, getActivePlayer };
+  function playRound(cell) {
+    if (cell.innerText !== "") {
+      alert("This cell has been claimed!");
+    } else {
+      switchTurn();
+      activePlayer = getActivePlayer(); // Retrieve the updated activePlayer
+      let activeToken = activePlayer.userToken;
+      gameBoard().addToken(cell, activeToken);
+
+      renderGame().showTurn(activePlayer.name);
+    }
+  }
+
+  return { switchTurn, getActivePlayer, playRound };
 }
-const players = playerControls();
+let players = playerControls("Adam", "Eve");
 function renderGame() {
   function createCell() {
     let container = document.querySelector(".container");
@@ -92,23 +105,14 @@ function renderGame() {
     cell.innerText = "";
     container.appendChild(cell);
 
-    cell.addEventListener("click", () => playRound(cell));
+    cell.addEventListener("click", () => players.playRound(cell));
   }
 
-  function playRound(cell) {
-    if (cell.innerText !== "") {
-      alert("This cell has been claimed!");
-    } else {
-      players.switchTurn();
-
-      let activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
-      let activeToken = activePlayer.userToken;
-      gameBoard().addToken(cell, activeToken);
-    }
+  function showTurn(player) {
+    const turn = document.querySelector(".turn");
+    turn.innerText = `${player}'s turn`;
   }
-
-  return { createCell, playRound };
+  return { createCell, showTurn };
 }
 
 gameBoard().createBoard();
-console.log(`First active ${playerControls().getActivePlayer().userToken}`);
