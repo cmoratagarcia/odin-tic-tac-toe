@@ -17,11 +17,7 @@ function gameBoard() {
   const getBoard = () => board;
 
   const addToken = (cell, token) => {
-    if (cell.innerHTML !== "") {
-      alert("This cell is taken!");
-    } //check if cell is in use
-
-    cell.innerHTML = token;
+    cell.innerText = token;
   };
 
   function checkWin() {
@@ -62,7 +58,7 @@ function gameBoard() {
 }
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
-function gamePlay(player1, player2) {
+function playerControls(player1, player2) {
   let playerOneName = player1;
   let playerTwoName = player2;
 
@@ -78,15 +74,16 @@ function gamePlay(player1, player2) {
   ];
 
   let activePlayer = players[0];
+
   function switchTurn() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   }
 
-  const getActivePlayer = () => activePlayer.userToken;
+  const getActivePlayer = () => activePlayer;
 
   return { switchTurn, getActivePlayer };
 }
-
+const players = playerControls();
 function renderGame() {
   function createCell() {
     let container = document.querySelector(".container");
@@ -99,11 +96,19 @@ function renderGame() {
   }
 
   function playRound(cell) {
-    gamePlay().switchTurn();
-    let activeToken = gamePlay().getActivePlayer();
-    gameBoard().addToken(cell, activeToken);
+    if (cell.innerText !== "") {
+      alert("This cell has been claimed!");
+    } else {
+      players.switchTurn();
+
+      let activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
+      let activeToken = activePlayer.userToken;
+      gameBoard().addToken(cell, activeToken);
+    }
   }
 
-  return { createCell };
+  return { createCell, playRound };
 }
+
 gameBoard().createBoard();
+console.log(`First active ${playerControls().getActivePlayer().userToken}`);
