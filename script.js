@@ -85,10 +85,10 @@ function playerControls(player1, player2) {
     if (cell.innerText !== "") {
       alert("This cell has been claimed!");
     } else {
-      switchTurn();
       activePlayer = getActivePlayer(); // Retrieve the updated activePlayer
       let activeToken = activePlayer.userToken;
       gameBoard().addToken(cell, activeToken);
+      switchTurn();
 
       renderGame().showTurn(activePlayer.name);
     }
