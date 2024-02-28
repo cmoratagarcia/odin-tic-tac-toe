@@ -96,7 +96,7 @@ function playerControls(player1, player2) {
 
   return { switchTurn, getActivePlayer, playRound };
 }
-let players = playerControls("Adam", "Eve");
+
 function renderGame() {
   function createCell() {
     let container = document.querySelector(".container");
@@ -114,5 +114,6 @@ function renderGame() {
   }
   return { createCell, showTurn };
 }
-
+let players = playerControls("Adam", "Eve"); //To be changed after modal
+renderGame().showTurn(players.getActivePlayer().name); //To be changed after modal
 gameBoard().createBoard();
