@@ -13,10 +13,11 @@ function gameBoard() {
         board[i].push(renderGame().createCell());
       }
     }
-    return board;
   }
 
   const getBoard = () => board;
+
+  //checkfullboard function
 
   function checkWin() {
     for (let i = 0; i < board.length; i++) {
@@ -116,12 +117,12 @@ function playGame() {
       renderGame().addToken(cell, activeToken);
 
       if (game.checkWin()) {
-        alert("done!");
+        setTimeout("alert('Game Over!')", 100);
       }
       players.switchTurn();
-
-      renderGame().showTurn(activePlayer.name);
     }
+
+    renderGame().showTurn(players.getActivePlayer().name);
   }
   return { playRound };
 }
