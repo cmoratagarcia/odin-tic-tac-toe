@@ -3,12 +3,30 @@
     margin: 0;
 }
 
+h1 {
+    text-align: center;
+    padding: 50px;
+    font-size: 60px;
+}
+
+main {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+}
 .container {
-    max-width: 600px;
+    padding: 50px;
+    max-width: 700px;
+    flex-grow: 1;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.turn {
+font-size: 50px;
+margin-left: 80px;
+}
 .cell {
     height: 200px;
 }
