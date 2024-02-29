@@ -4,29 +4,37 @@
 }
 
 h1 {
-    text-align: center;
-    padding: 50px;
+    text-align: left;
+    padding: 20px;
     font-size: 60px;
-}
+   }
 
 main {
     display: flex;
-    width: 80%;
-    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+.board-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
+
 .container {
     padding: 50px;
     max-width: 700px;
-    flex-grow: 1;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
 .turn {
 font-size: 50px;
-margin-left: 80px;
+margin-left: 50px;
 }
+
 .cell {
     height: 200px;
+    width: 200px;
+    font-size: 20px;
 }
