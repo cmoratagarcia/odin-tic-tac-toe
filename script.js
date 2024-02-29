@@ -10,65 +10,64 @@ function gameBoard() {
     for (let i = 0; i < rows; i++) {
       board[i] = [];
       for (let j = 0; j < columns; j++) {
-        board[i].push(renderGame().createCell()); //This will eventually be a button for each cell
+        board[i].push(renderGame().createCell());
       }
     }
+    return board;
   }
-  const getBoard = () => board;
 
-  const addToken = (cell, token) => {
-    cell.innerText = token;
-  };
+  const getBoard = () => board;
 
   function checkWin() {
     for (let i = 0; i < board.length; i++) {
       if (
-        board[i][0] != " " && //Change to undefined? or use inner HTML when buttons
-        board[i][0] === board[i][1] &&
-        board[i][0] === board[i][2]
+        board[i][0].innerText !== "" &&
+        board[i][0].innerText === board[i][1].innerText &&
+        board[i][0].innerText === board[i][2].innerText
       ) {
         return true;
       } else if (
-        board[0][i] != " " &&
-        board[0][i] === board[1][i] &&
-        board[0][i] === board[2][i]
+        board[0][i].innerText !== "" &&
+        board[0][i].innerText === board[1][i].innerText &&
+        board[0][i].innerText === board[2][i].innerText
       ) {
         return true;
       }
     }
-    //Diagonals
     if (
-      board[0][0] != " " &&
-      board[0][0] === board[1][1] &&
-      board[0][0] === board[2][2]
+      board[0][0].innerText !== "" &&
+      board[0][0].innerText === board[1][1].innerText &&
+      board[0][0].innerText === board[2][2].innerText
     ) {
       return true;
     }
     if (
-      board[2][0] != " " &&
-      board[2][0] === board[1][1] &&
-      board[2][0] === board[0][2]
+      board[2][0].innerText !== "" &&
+      board[2][0].innerText === board[1][1].innerText &&
+      board[2][0].innerText === board[0][2].innerText
     ) {
       return true;
     }
     return false;
   }
 
-  return { getBoard, createBoard, addToken, checkWin }; //return all board functions
+  return { getBoard, createBoard, checkWin }; //return all board functions
 }
+let game = gameBoard();
+game.createBoard();
+let board = game.getBoard();
+const players = playerControls("Adam", "Eve");
+renderGame().showTurn(players.getActivePlayer().name);
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
 function playerControls(player1, player2) {
-  let playerOneName = player1;
-  let playerTwoName = player2;
-
   const players = [
     {
-      name: playerOneName,
+      name: player1,
       userToken: "X",
     },
     {
-      name: playerTwoName,
+      name: player2,
       userToken: "O",
     },
   ];
@@ -81,22 +80,10 @@ function playerControls(player1, player2) {
 
   const getActivePlayer = () => activePlayer;
 
-  function playRound(cell) {
-    if (cell.innerText !== "") {
-      alert("This cell has been claimed!");
-    } else {
-      activePlayer = getActivePlayer(); // Retrieve the updated activePlayer
-      let activeToken = activePlayer.userToken;
-      gameBoard().addToken(cell, activeToken);
-      switchTurn();
-
-      renderGame().showTurn(activePlayer.name);
-    }
-  }
-
-  return { switchTurn, getActivePlayer, playRound };
+  return { switchTurn, getActivePlayer };
 }
 
+//Rendering
 function renderGame() {
   function createCell() {
     let container = document.querySelector(".container");
@@ -105,15 +92,36 @@ function renderGame() {
     cell.innerText = "";
     container.appendChild(cell);
 
-    cell.addEventListener("click", () => players.playRound(cell));
+    cell.addEventListener("click", () => playGame().playRound(cell));
+    return cell;
   }
-
   function showTurn(player) {
     const turn = document.querySelector(".turn");
     turn.innerText = `${player}'s turn`;
   }
-  return { createCell, showTurn };
+
+  const addToken = (cell, token) => {
+    cell.innerText = token;
+  };
+  return { createCell, showTurn, addToken };
 }
-let players = playerControls("Adam", "Eve"); //To be changed after modal
-renderGame().showTurn(players.getActivePlayer().name); //To be changed after modal
-gameBoard().createBoard();
+
+function playGame() {
+  function playRound(cell) {
+    if (cell.innerText !== "") {
+      alert("This cell has been claimed!");
+    } else {
+      const activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
+      const activeToken = activePlayer.userToken;
+      renderGame().addToken(cell, activeToken);
+
+      if (game.checkWin()) {
+        alert("done!");
+      }
+      players.switchTurn();
+
+      renderGame().showTurn(activePlayer.name);
+    }
+  }
+  return { playRound };
+}
