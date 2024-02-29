@@ -110,6 +110,12 @@ function renderGame() {
     cell.addEventListener("click", () => playGame().playRound(cell));
     return cell;
   }
+  function clearCells() {
+    let cellArray = document.querySelectorAll(".cell");
+    cellArray.forEach((cell) => {
+      cell.innerText = "";
+    });
+  }
 
   function showTurn(player) {
     const turn = document.querySelector(".turn");
@@ -120,7 +126,7 @@ function renderGame() {
     cell.innerText = token;
   };
 
-  return { createCell, showTurn, addToken };
+  return { createCell, clearCells, showTurn, addToken };
 }
 
 function playGame() {
@@ -134,10 +140,12 @@ function playGame() {
 
       if (game.checkWin()) {
         setTimeout("alert('Game Over!')", 100);
+        setTimeout("renderGame().clearCells()", 500);//Might be called on clicking modal close button later
       }
 
       if (game.checkTie()) {
-        setTimeout("alert('Tie!')", 500);
+        setTimeout("alert('Tie!')", 100);
+        setTimeout("renderGame().clearCells()", 500);//Might be called on clicking modal close button later
       }
       players.switchTurn();
     }
