@@ -17,8 +17,6 @@ function gameBoard() {
 
   const getBoard = () => board;
 
-  //checkfullboard function
-
   function checkWin() {
     for (let i = 0; i < board.length; i++) {
       if (
@@ -52,11 +50,27 @@ function gameBoard() {
     return false;
   }
 
-  return { getBoard, createBoard, checkWin }; //return all board functions
+  function checkTie() {
+    const filtered = [];
+
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].innerText === "") {
+          filtered.push(board[i])[j];
+        }
+      }
+    }
+    if (filtered.length < 1) {
+      return true;
+    }
+    return false;
+  }
+
+  return { getBoard, createBoard, checkWin, checkTie }; //return all board functions
 }
 let game = gameBoard();
 game.createBoard();
-let board = game.getBoard();
+let gameboard = game.getBoard();
 const players = playerControls("Adam", "Eve");
 renderGame().showTurn(players.getActivePlayer().name);
 
@@ -96,6 +110,7 @@ function renderGame() {
     cell.addEventListener("click", () => playGame().playRound(cell));
     return cell;
   }
+
   function showTurn(player) {
     const turn = document.querySelector(".turn");
     turn.innerText = `${player}'s turn`;
@@ -104,6 +119,7 @@ function renderGame() {
   const addToken = (cell, token) => {
     cell.innerText = token;
   };
+
   return { createCell, showTurn, addToken };
 }
 
@@ -118,6 +134,10 @@ function playGame() {
 
       if (game.checkWin()) {
         setTimeout("alert('Game Over!')", 100);
+      }
+
+      if (game.checkTie()) {
+        setTimeout("alert('Tie!')", 500);
       }
       players.switchTurn();
     }
