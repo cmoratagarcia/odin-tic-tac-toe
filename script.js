@@ -72,7 +72,7 @@ let game = gameBoard();
 game.createBoard();
 let gameboard = game.getBoard();
 const players = playerControls("Adam", "Eve");
-renderGame().showTurn(players.getActivePlayer().name);
+renderGame().showStatus("turn", players.getActivePlayer().name);
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
 function playerControls(player1, player2) {
@@ -116,56 +116,55 @@ function renderGame() {
       cell.innerText = "";
     });
   }
-  const turn = document.querySelector(".turn");
-  function showTaken() {
-    turn.innerText = `This cell has been claimed!`;
-  }
-
-  function showTurn(player) {
-    turn.innerText = `${player}'s turn`;
-  }
-
-  function showWinner(player) {
-    turn.innerText = `${player} wins!`;
-  }
-
-  function showTie() {
-    turn.innerText = `It's a tie!`;
-  }
-
   const addToken = (cell, token) => {
     cell.innerText = token;
   };
+  function showStatus(status, player) {
+    const turn = document.querySelector(".turn");
+
+    switch (status) {
+      case "turn":
+        turn.innerText = `${player}'s turn`;
+        break;
+      case "taken":
+        turn.innerText = `This cell has been claimed!`;
+        break;
+      case "winner":
+        turn.innerText = `${player} wins!`;
+        break;
+      case "tie":
+        turn.innerText = `It's a tie!`;
+        break;
+    }
+  }
 
   return {
     createCell,
     clearCells,
-    showTurn,
-    showWinner,
-    showTie,
-    showTaken,
+    showStatus,
     addToken,
   };
 }
 
 function playGame() {
+  const renderer = renderGame();
   function playRound(cell) {
     if (cell.innerText !== "") {
-      renderGame().showTaken();
+      renderer.showStatus("taken");
     } else {
       const activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
       const activeToken = activePlayer.userToken;
       renderGame().addToken(cell, activeToken);
 
       if (game.checkWin()) {
-        renderGame().showWinner(activePlayer.name);
+        renderer.showStatus("winner", activePlayer.name);
         setTimeout("renderGame().clearCells()", 500);
       } else if (game.checkTie()) {
-        renderGame().showTie();
+        renderer.showStatus("tie");
         setTimeout("renderGame().clearCells()", 500);
       } else {
         players.switchTurn();
-        renderGame().showTurn(players.getActivePlayer().name);
+        renderer.showStatus("turn", players.getActivePlayer().name);
       }
     }
   }
