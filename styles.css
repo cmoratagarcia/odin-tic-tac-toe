@@ -22,12 +22,16 @@ main {
 }
 
 .container {
-    padding: 50px;
+    margin: 50px;
     max-width: 700px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    box-shadow: 5px 5px 5px lightgray;
 }
 
+button {
+    cursor: pointer;
+}
 .turn {
 font-size: 50px;
 width: 300px;
