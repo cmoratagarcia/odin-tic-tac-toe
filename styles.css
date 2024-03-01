@@ -22,6 +22,7 @@ main {
 }
 
 .container {
+   
     margin: 50px;
     max-width: 700px;
     display: grid;
@@ -39,9 +40,10 @@ margin-left: 50px;
 }
 
 .cell {
+    font-family: "Montserrat", sans-serif;
     height: 200px;
     width: 200px;
-    font-size: 20px;
+    font-size: 50px;
 }
 .buttons {
     margin: 20px;
