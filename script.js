@@ -116,19 +116,20 @@ function renderGame() {
       cell.innerText = "";
     });
   }
+  const turn = document.querySelector(".turn");
+  function showTaken() {
+    turn.innerText = `This cell has been claimed!`;
+  }
 
   function showTurn(player) {
-    const turn = document.querySelector(".turn");
     turn.innerText = `${player}'s turn`;
   }
 
   function showWinner(player) {
-    const turn = document.querySelector(".turn");
     turn.innerText = `${player} wins!`;
   }
 
   function showTie() {
-    const turn = document.querySelector(".turn");
     turn.innerText = `It's a tie!`;
   }
 
@@ -136,13 +137,21 @@ function renderGame() {
     cell.innerText = token;
   };
 
-  return { createCell, clearCells, showTurn, showWinner, showTie, addToken };
+  return {
+    createCell,
+    clearCells,
+    showTurn,
+    showWinner,
+    showTie,
+    showTaken,
+    addToken,
+  };
 }
 
 function playGame() {
   function playRound(cell) {
     if (cell.innerText !== "") {
-      alert("This cell has been claimed!");
+      renderGame().showTaken();
     } else {
       const activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
       const activeToken = activePlayer.userToken;
