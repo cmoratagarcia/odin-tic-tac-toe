@@ -122,11 +122,21 @@ function renderGame() {
     turn.innerText = `${player}'s turn`;
   }
 
+  function showWinner(player) {
+    const turn = document.querySelector(".turn");
+    turn.innerText = `${player} wins!`;
+  }
+
+  function showTie() {
+    const turn = document.querySelector(".turn");
+    turn.innerText = `It's a tie!`;
+  }
+
   const addToken = (cell, token) => {
     cell.innerText = token;
   };
 
-  return { createCell, clearCells, showTurn, addToken };
+  return { createCell, clearCells, showTurn, showWinner, showTie, addToken };
 }
 
 function playGame() {
@@ -139,18 +149,16 @@ function playGame() {
       renderGame().addToken(cell, activeToken);
 
       if (game.checkWin()) {
-        setTimeout("alert('Game Over!')", 100);
-        setTimeout("renderGame().clearCells()", 500);//Might be called on clicking modal close button later
+        renderGame().showWinner(activePlayer.name);
+        setTimeout("renderGame().clearCells()", 500);
+      } else if (game.checkTie()) {
+        renderGame().showTie();
+        setTimeout("renderGame().clearCells()", 500);
+      } else {
+        players.switchTurn();
+        renderGame().showTurn(players.getActivePlayer().name);
       }
-
-      if (game.checkTie()) {
-        setTimeout("alert('Tie!')", 100);
-        setTimeout("renderGame().clearCells()", 500);//Might be called on clicking modal close button later
-      }
-      players.switchTurn();
     }
-
-    renderGame().showTurn(players.getActivePlayer().name);
   }
   return { playRound };
 }
