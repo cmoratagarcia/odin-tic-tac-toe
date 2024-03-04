@@ -68,6 +68,11 @@ function gameBoard() {
 
   return { getBoard, createBoard, checkWin, checkTie }; //return all board functions
 }
+const playerForm = document.querySelector("dialog");
+window.onload = function () {
+  playerForm.showModal();
+};
+
 let game = gameBoard();
 game.createBoard();
 let gameboard = game.getBoard();
