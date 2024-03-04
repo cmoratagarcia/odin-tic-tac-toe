@@ -111,7 +111,6 @@ ul {
 
 .text-input {
     background-color: lightgray;
-    color: white;
     font-size: 20px;
     border: none;
     border-radius: 12px;
@@ -130,4 +129,8 @@ ul {
     min-width: 150px;
     height: 50px;
   font-size: 18px;
+}
+
+button:hover {
+    transform: scale(1.05);
 }

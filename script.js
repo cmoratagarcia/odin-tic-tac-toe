@@ -1,3 +1,12 @@
+const playerForm = document.querySelector("dialog");
+window.onload = function () {
+  playerForm.showModal();
+};
+const closeDialog = document.querySelector(".close-dialog");
+closeDialog.addEventListener("click", () => {
+  playerForm.close();
+});
+
 //store the gameboard as an array inside of a Gameboard object
 function gameBoard() {
   const board = [];
@@ -68,10 +77,6 @@ function gameBoard() {
 
   return { getBoard, createBoard, checkWin, checkTie }; //return all board functions
 }
-const playerForm = document.querySelector("dialog");
-window.onload = function () {
-  playerForm.showModal();
-};
 
 let game = gameBoard();
 game.createBoard();
