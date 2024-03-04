@@ -62,3 +62,72 @@ margin-left: 50px;
     font-size: 1em;
     box-shadow: 5px 5px 5px lightgray;
 }
+
+dialog {
+    margin: 100px auto;
+    min-width: 30%;
+    background-color: darkgrey;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+dialog::backdrop {
+    background-color: white;
+    opacity: 100%;
+  }
+
+.close-dialog {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: auto;
+}
+
+h3 {
+    font-size: 36px;
+    text-align: center;
+    margin: 20px;
+}
+
+ul {
+    padding: 0;
+    width: 95%;
+ }
+.player-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+
+.form-input {
+    list-style: none;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    }
+
+.text-input {
+    background-color: lightgray;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    padding: 4px 20px 0;
+    height: 50px;
+    margin: 15px 0;
+    width: 78%;
+ }
+
+ .submit {
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 20px;
+    min-width: 150px;
+    height: 50px;
+  font-size: 18px;
+}
