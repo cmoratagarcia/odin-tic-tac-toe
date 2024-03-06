@@ -7,7 +7,10 @@ const closeDialog = document.querySelector(".close-dialog");
 closeDialog.addEventListener("click", () => {
   playerForm.close();
 });
+const newGame = document.querySelector(".new-game");
+const rematch = document.querySelector(".play-again");
 
+newGame.addEventListener("click", openModal);
 //store the gameboard as an array inside of a Gameboard object
 function gameBoard() {
   const board = [];
