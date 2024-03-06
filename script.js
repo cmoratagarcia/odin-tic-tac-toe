@@ -1,7 +1,8 @@
 const playerForm = document.querySelector("dialog");
-window.onload = function () {
+function openModal() {
   playerForm.showModal();
-};
+}
+window.onload = openModal();
 const closeDialog = document.querySelector(".close-dialog");
 closeDialog.addEventListener("click", () => {
   playerForm.close();
