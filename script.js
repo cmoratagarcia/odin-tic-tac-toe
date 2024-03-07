@@ -189,7 +189,7 @@ function playGame() {
     if (cell.innerText !== "") {
       renderGame.showStatus("taken");
     } else {
-      const activePlayer = playerControls().getActivePlayer(); // Retrieve the updated activePlayer
+      const activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
       const activeToken = activePlayer.userToken;
       renderGame.addToken(cell, activeToken);
 
@@ -200,8 +200,8 @@ function playGame() {
         renderGame.showStatus("tie");
         setTimeout(() => renderGame.clearCells(), 500);
       } else {
-        playerControls().switchTurn();
-        renderGame.showStatus("turn", playerControls().getActivePlayer().name);
+        players.switchTurn();
+        renderGame.showStatus("turn", players.getActivePlayer().name);
       }
     }
   }
