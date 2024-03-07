@@ -1,29 +1,14 @@
-const playerForm = document.querySelector("dialog");
-function openModal() {
-  playerForm.showModal();
-}
-window.onload = openModal();
-const closeDialog = document.querySelector(".close-dialog");
-closeDialog.addEventListener("click", () => {
-  playerForm.close();
-});
-const newGame = document.querySelector(".new-game");
-const rematch = document.querySelector(".play-again");
-
-newGame.addEventListener("click", openModal);
 //store the gameboard as an array inside of a Gameboard object
 function gameBoard() {
   const board = [];
   const rows = 3;
   const columns = 3;
 
-  //Add clear function
-
   function createBoard() {
     for (let i = 0; i < rows; i++) {
       board[i] = [];
       for (let j = 0; j < columns; j++) {
-        board[i].push(renderGame().createCell());
+        board[i].push(renderGame.createCell());
       }
     }
   }
@@ -82,24 +67,23 @@ function gameBoard() {
   return { getBoard, createBoard, checkWin, checkTie }; //return all board functions
 }
 
-let game = gameBoard();
-game.createBoard();
-let gameboard = game.getBoard();
-const players = playerControls("Adam", "Eve");
-renderGame().showStatus("turn", players.getActivePlayer().name);
-
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
-function playerControls(player1, player2) {
+function playerControls() {
   const players = [
     {
-      name: player1,
+      name: "",
       userToken: "X",
     },
     {
-      name: player2,
+      name: "",
       userToken: "O",
     },
   ];
+
+  function setPlayers(player1, player2) {
+    players[0].name = player1;
+    players[1].name = player2;
+  }
 
   let activePlayer = players[0];
 
@@ -109,11 +93,69 @@ function playerControls(player1, player2) {
 
   const getActivePlayer = () => activePlayer;
 
-  return { switchTurn, getActivePlayer };
+  return { setPlayers, switchTurn, getActivePlayer };
 }
 
+function playGame() {
+  let players = playerControls();
+  let game = gameBoard();
+
+  function initializeGame(name1, name2) {
+    console.log(name1, name2);
+    players.setPlayers(name1, name2);
+
+    game.createBoard();
+    renderGame.showStatus("turn", players.getActivePlayer().name);
+  }
+
+  function playRound(cell) {
+    if (cell.innerText !== "") {
+      renderGame.showStatus("taken");
+    } else {
+      const activePlayer = playerControls().getActivePlayer(); // Retrieve the updated activePlayer
+      const activeToken = activePlayer.userToken;
+      renderGame.addToken(cell, activeToken);
+
+      if (game.checkWin()) {
+        renderer.showStatus("winner", activePlayer.name);
+        setTimeout("renderGame.clearCells()", 500);
+      } else if (game.checkTie()) {
+        renderer.showStatus("tie");
+        setTimeout("renderGame.clearCells()", 500);
+      } else {
+        playerControls().switchTurn();
+        renderer.showStatus("turn", playerControls().getActivePlayer().name);
+      }
+    }
+  }
+  return { initializeGame, playRound };
+}
 //Rendering
-function renderGame() {
+const renderGame = (function () {
+  const submitBtn = document.querySelector(".submit");
+  const playerOne = document.querySelector("#player1");
+  const playerTwo = document.querySelector("#player2");
+  const newGame = document.querySelector(".new-game");
+  const rematch = document.querySelector(".play-again");
+  const playerForm = document.querySelector("dialog");
+  const closeDialog = document.querySelector(".close-dialog");
+
+  function openModal() {
+    playerForm.showModal();
+  }
+
+  window.onload = openModal();
+
+  closeDialog.addEventListener("click", () => {
+    playerForm.close();
+  });
+  submitBtn.addEventListener("click", () =>
+    playGame().initializeGame(playerOne.value, playerTwo.value)
+  );
+  newGame.addEventListener("click", openModal);
+  // rematch.addEventListener("click", () => {
+  //   playGame();
+  // });
   function createCell() {
     let container = document.querySelector(".container");
     let cell = document.createElement("button");
@@ -124,6 +166,7 @@ function renderGame() {
     cell.addEventListener("click", () => playGame().playRound(cell));
     return cell;
   }
+
   function clearCells() {
     let cellArray = document.querySelectorAll(".cell");
     cellArray.forEach((cell) => {
@@ -158,29 +201,4 @@ function renderGame() {
     showStatus,
     addToken,
   };
-}
-
-function playGame() {
-  const renderer = renderGame();
-  function playRound(cell) {
-    if (cell.innerText !== "") {
-      renderer.showStatus("taken");
-    } else {
-      const activePlayer = players.getActivePlayer(); // Retrieve the updated activePlayer
-      const activeToken = activePlayer.userToken;
-      renderGame().addToken(cell, activeToken);
-
-      if (game.checkWin()) {
-        renderer.showStatus("winner", activePlayer.name);
-        setTimeout("renderGame().clearCells()", 500);
-      } else if (game.checkTie()) {
-        renderer.showStatus("tie");
-        setTimeout("renderGame().clearCells()", 500);
-      } else {
-        players.switchTurn();
-        renderer.showStatus("turn", players.getActivePlayer().name);
-      }
-    }
-  }
-  return { playRound };
-}
+})();
