@@ -20,7 +20,7 @@ const renderGame = (function () {
   });
 
   submitBtn.addEventListener("click", () =>
-    playGame().initializeGame(playerOne.value, playerTwo.value)
+    gameInstance.initializeGame(playerOne.value, playerTwo.value)
   );
 
   newGame.addEventListener("click", openModal);
@@ -34,7 +34,7 @@ const renderGame = (function () {
     cell.innerText = "";
     container.appendChild(cell);
 
-    cell.addEventListener("click", () => playGame().playRound(cell));
+    cell.addEventListener("click", () => gameInstance.playRound(cell));
     return cell;
   }
 
@@ -76,9 +76,9 @@ const renderGame = (function () {
   };
 })();
 
-//store the gameboard as an array inside of a Gameboard object
+//Store the gameboard as an array inside of a Gameboard object
 function gameBoard() {
-  const board = [];
+  let board = [];
   const rows = 3;
   const columns = 3;
 
@@ -90,8 +90,6 @@ function gameBoard() {
       }
     }
   }
-
-  const getBoard = () => board;
 
   function checkWin() {
     for (let i = 0; i < board.length; i++) {
@@ -141,7 +139,7 @@ function gameBoard() {
     return false;
   }
 
-  return { getBoard, createBoard, checkWin, checkTie };
+  return { createBoard, checkWin, checkTie };
 }
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
@@ -173,14 +171,15 @@ function playerControls() {
   return { setPlayers, switchTurn, getActivePlayer };
 }
 
+//Game flow
+const gameInstance = playGame();
 function playGame() {
   let players = playerControls();
-  let game = gameBoard();
+  let game;
 
   function initializeGame(name1, name2) {
-    console.log(name1, name2);
     players.setPlayers(name1, name2);
-
+    game = gameBoard();
     game.createBoard();
     renderGame.showStatus("turn", players.getActivePlayer().name);
   }
