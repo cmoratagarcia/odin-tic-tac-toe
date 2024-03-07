@@ -44,9 +44,11 @@ const renderGame = (function () {
       cell.innerText = "";
     });
   }
-  const addToken = (cell, token) => {
+
+  function addToken(cell, token) {
     cell.innerText = token;
-  };
+  }
+
   function showStatus(status, player) {
     const turn = document.querySelector(".turn");
 
