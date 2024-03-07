@@ -195,13 +195,13 @@ function playGame() {
 
       if (game.checkWin()) {
         renderGame.showStatus("winner", activePlayer.name);
-        setTimeout("renderGame.clearCells()", 500);
+        setTimeout(() => renderGame.clearCells(), 500);
       } else if (game.checkTie()) {
-        renderer.showStatus("tie");
-        setTimeout("renderGame.clearCells()", 500);
+        renderGame.showStatus("tie");
+        setTimeout(() => renderGame.clearCells(), 500);
       } else {
         playerControls().switchTurn();
-        renderer.showStatus("turn", playerControls().getActivePlayer().name);
+        renderGame.showStatus("turn", playerControls().getActivePlayer().name);
       }
     }
   }
