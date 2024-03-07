@@ -1,3 +1,79 @@
+//Rendering
+const renderGame = (function () {
+  const submitBtn = document.querySelector(".submit");
+  const playerOne = document.querySelector("#player1");
+  const playerTwo = document.querySelector("#player2");
+  const newGame = document.querySelector(".new-game");
+  const rematch = document.querySelector(".play-again");
+  const playerForm = document.querySelector("dialog");
+  const closeDialog = document.querySelector(".close-dialog");
+  const container = document.querySelector(".container");
+
+  function openModal() {
+    playerForm.showModal();
+  }
+
+  window.onload = openModal;
+
+  closeDialog.addEventListener("click", () => {
+    playerForm.close();
+  });
+
+  submitBtn.addEventListener("click", () =>
+    playGame().initializeGame(playerOne.value, playerTwo.value)
+  );
+
+  newGame.addEventListener("click", openModal);
+  // rematch.addEventListener("click", () => {
+  //   playGame();
+  // });
+
+  function createCell() {
+    let cell = document.createElement("button");
+    cell.classList.add("cell");
+    cell.innerText = "";
+    container.appendChild(cell);
+
+    cell.addEventListener("click", () => playGame().playRound(cell));
+    return cell;
+  }
+
+  function clearCells() {
+    let cellArray = document.querySelectorAll(".cell");
+    cellArray.forEach((cell) => {
+      cell.innerText = "";
+    });
+  }
+  const addToken = (cell, token) => {
+    cell.innerText = token;
+  };
+  function showStatus(status, player) {
+    const turn = document.querySelector(".turn");
+
+    switch (status) {
+      case "turn":
+        turn.innerText = `${player}'s turn`;
+        break;
+      case "taken":
+        turn.innerText = `This cell has been claimed!`;
+        break;
+      case "winner":
+        turn.innerText = `${player} wins!`;
+        break;
+      case "tie":
+        turn.innerText = `It's a tie!`;
+        break;
+    }
+  }
+
+  return {
+    createCell,
+    clearCells,
+    showStatus,
+    addToken,
+  };
+})();
+
 //store the gameboard as an array inside of a Gameboard object
 function gameBoard() {
   const board = [];
@@ -50,11 +126,10 @@ function gameBoard() {
 
   function checkTie() {
     const filtered = [];
-
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         if (board[i][j].innerText === "") {
-          filtered.push(board[i])[j];
+          filtered.push(board[i][j]);
         }
       }
     }
@@ -64,7 +139,7 @@ function gameBoard() {
     return false;
   }
 
-  return { getBoard, createBoard, checkWin, checkTie }; //return all board functions
+  return { getBoard, createBoard, checkWin, checkTie };
 }
 
 //Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
@@ -117,7 +192,7 @@ function playGame() {
       renderGame.addToken(cell, activeToken);
 
       if (game.checkWin()) {
-        renderer.showStatus("winner", activePlayer.name);
+        renderGame.showStatus("winner", activePlayer.name);
         setTimeout("renderGame.clearCells()", 500);
       } else if (game.checkTie()) {
         renderer.showStatus("tie");
@@ -130,75 +205,3 @@ function playGame() {
   }
   return { initializeGame, playRound };
 }
-//Rendering
-const renderGame = (function () {
-  const submitBtn = document.querySelector(".submit");
-  const playerOne = document.querySelector("#player1");
-  const playerTwo = document.querySelector("#player2");
-  const newGame = document.querySelector(".new-game");
-  const rematch = document.querySelector(".play-again");
-  const playerForm = document.querySelector("dialog");
-  const closeDialog = document.querySelector(".close-dialog");
-
-  function openModal() {
-    playerForm.showModal();
-  }
-
-  window.onload = openModal();
-
-  closeDialog.addEventListener("click", () => {
-    playerForm.close();
-  });
-  submitBtn.addEventListener("click", () =>
-    playGame().initializeGame(playerOne.value, playerTwo.value)
-  );
-  newGame.addEventListener("click", openModal);
-  // rematch.addEventListener("click", () => {
-  //   playGame();
-  // });
-  function createCell() {
-    let container = document.querySelector(".container");
-    let cell = document.createElement("button");
-    cell.classList.add("cell");
-    cell.innerText = "";
-    container.appendChild(cell);
-
-    cell.addEventListener("click", () => playGame().playRound(cell));
-    return cell;
-  }
-
-  function clearCells() {
-    let cellArray = document.querySelectorAll(".cell");
-    cellArray.forEach((cell) => {
-      cell.innerText = "";
-    });
-  }
-  const addToken = (cell, token) => {
-    cell.innerText = token;
-  };
-  function showStatus(status, player) {
-    const turn = document.querySelector(".turn");
-
-    switch (status) {
-      case "turn":
-        turn.innerText = `${player}'s turn`;
-        break;
-      case "taken":
-        turn.innerText = `This cell has been claimed!`;
-        break;
-      case "winner":
-        turn.innerText = `${player} wins!`;
-        break;
-      case "tie":
-        turn.innerText = `It's a tie!`;
-        break;
-    }
-  }
-
-  return {
-    createCell,
-    clearCells,
-    showStatus,
-    addToken,
-  };
-})();
