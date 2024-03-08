@@ -25,6 +25,7 @@ const renderGame = (function () {
   );
 
   newGame.addEventListener("click", () => {
+    container.innerHTML = "";
     formContent.reset();
     openModal();
   });
