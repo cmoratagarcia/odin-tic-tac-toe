@@ -6,6 +6,7 @@ const renderGame = (function () {
   const newGame = document.querySelector(".new-game");
   const rematch = document.querySelector(".play-again");
   const playerForm = document.querySelector("dialog");
+  const formContent = document.querySelector(".player-form");
   const closeDialog = document.querySelector(".close-dialog");
   const container = document.querySelector(".container");
 
@@ -23,7 +24,10 @@ const renderGame = (function () {
     gameInstance.initializeGame(playerOne.value, playerTwo.value)
   );
 
-  newGame.addEventListener("click", openModal);
+  newGame.addEventListener("click", () => {
+    formContent.reset();
+    openModal();
+  });
   // rematch.addEventListener("click", () => {
   //   playGame();
   // });
