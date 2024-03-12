@@ -197,12 +197,12 @@ const gameInstance = playGame();
 const players = playerControls();
 
 function playGame() {
-  let game;
+  let board;
 
   function initializeGame(name1, name2) {
     players.setPlayers(name1, name2);
-    game = gameBoard();
-    game.createBoard();
+    board = gameBoard();
+    board.createBoard();
     renderGame.showStatus(
       "turn",
       players.getActivePlayer().name,
@@ -218,9 +218,9 @@ function playGame() {
       const activeToken = activePlayer.userToken;
       renderGame.addToken(cell, activeToken);
 
-      if (game.checkWin()) {
+      if (board.checkWin()) {
         renderGame.showStatus("winner", activePlayer.name);
-      } else if (game.checkTie()) {
+      } else if (board.checkTie()) {
         renderGame.showStatus("tie");
       } else {
         players.switchTurn();
