@@ -33,15 +33,19 @@ const renderGame = (function () {
     openModal();
   });
 
-  rematch.addEventListener("click", () => {
+  rematch.addEventListener("click", resetGame);
+
+  function resetGame() {
     clearCells();
+    let board = gameBoard();
+    board.unlockCells();
     players.initializeActive(); //Reset active player back to 1
     showStatus(
       "turn",
       players.getActivePlayer().name,
-      players.getActivePlayer().userTokenF
+      players.getActivePlayer().userToken
     );
-  });
+  }
 
   function createCell() {
     let cell = document.createElement("button");
@@ -70,13 +74,6 @@ const renderGame = (function () {
     });
   }
 
-  function lockCells() {
-    let cellArray = document.querySelectorAll(".cell");
-    cellArray.forEach((cell) => {
-      cell.setAttribute("disabled", true);
-    });
-  }
-
   //Game status messages
   function showStatus(status, player, token) {
     const turn = document.querySelector(".turn");
@@ -101,7 +98,6 @@ const renderGame = (function () {
     createCell,
     addToken,
     clearCells,
-    lockCells,
     showStatus,
   };
 })();
@@ -170,7 +166,21 @@ function gameBoard() {
     return false;
   }
 
-  return { createBoard, checkWin, checkTie };
+  function lockCells() {
+    let cellArray = document.querySelectorAll(".cell");
+    cellArray.forEach((cell) => {
+      cell.setAttribute("disabled", true);
+    });
+  }
+
+  function unlockCells() {
+    let cellArray = document.querySelectorAll(".cell");
+    cellArray.forEach((cell) => {
+      cell.removeAttribute("disabled");
+    });
+  }
+
+  return { createBoard, checkWin, checkTie, lockCells, unlockCells };
 }
 
 //Function for handling player data
@@ -235,10 +245,10 @@ function playGame() {
 
       if (board.checkWin()) {
         renderGame.showStatus("winner", activePlayer.name);
-        renderGame.lockCells();
+        board.lockCells();
       } else if (board.checkTie()) {
         renderGame.showStatus("tie");
-        renderGame.lockCells();
+        board.lockCells();
       } else {
         players.switchTurn();
         renderGame.showStatus(
