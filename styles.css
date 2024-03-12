@@ -42,11 +42,12 @@ margin-left: 40px;
 }
 
 .cell {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Permanent Marker", sans-serif;
     height: 200px;
     width: 200px;
-    font-size: 50px;
-}
+    font-size: 70px;
+  }
+  
 .buttons {
     margin: 20px;
     display: flex;
