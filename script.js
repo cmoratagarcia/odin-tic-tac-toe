@@ -50,11 +50,17 @@ const renderGame = (function () {
     let cellArray = document.querySelectorAll(".cell");
     cellArray.forEach((cell) => {
       cell.innerText = "";
+      cell.classList.remove("player-one", "player-two");
     });
   }
 
   function addToken(cell, token) {
     cell.innerText = token;
+    if (token === "X") {
+      cell.classList.add("player-one");
+    } else {
+      cell.classList.add("player-two");
+    }
   }
 
   function showStatus(status, player) {

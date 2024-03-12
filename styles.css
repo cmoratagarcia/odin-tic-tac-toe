@@ -33,6 +33,7 @@ main {
 button {
     cursor: pointer;
 }
+
 .turn {
 font-size: 50px;
 width: 300px;
@@ -140,4 +141,11 @@ ul {
 
 button:hover {
     transform: scale(1.05);
+}
+.player-one {
+    color: red;
+}
+
+.player-two {
+    color: blue;
 }
