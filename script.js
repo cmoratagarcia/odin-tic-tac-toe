@@ -33,7 +33,11 @@ const renderGame = (function () {
   rematch.addEventListener("click", () => {
     clearCells();
     players.initializeActive();
-    showStatus("turn", players.getActivePlayer().name);
+    showStatus(
+      "turn",
+      players.getActivePlayer().name,
+      players.getActivePlayer().userToken
+    );
   });
 
   function createCell() {
