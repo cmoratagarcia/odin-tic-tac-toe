@@ -63,12 +63,12 @@ const renderGame = (function () {
     }
   }
 
-  function showStatus(status, player) {
+  function showStatus(status, player, token) {
     const turn = document.querySelector(".turn");
 
     switch (status) {
       case "turn":
-        turn.innerText = `${player}'s turn`;
+        turn.innerText = `${token}: ${player}'s turn`;
         break;
       case "taken":
         turn.innerText = `This cell has been claimed!`;
@@ -199,7 +199,11 @@ function playGame() {
     players.setPlayers(name1, name2);
     game = gameBoard();
     game.createBoard();
-    renderGame.showStatus("turn", players.getActivePlayer().name);
+    renderGame.showStatus(
+      "turn",
+      players.getActivePlayer().name,
+      players.getActivePlayer().userToken
+    );
   }
 
   function playRound(cell) {
@@ -216,7 +220,11 @@ function playGame() {
         renderGame.showStatus("tie");
       } else {
         players.switchTurn();
-        renderGame.showStatus("turn", players.getActivePlayer().name);
+        renderGame.showStatus(
+          "turn",
+          players.getActivePlayer().name,
+          players.getActivePlayer().userToken
+        );
       }
     }
   }
