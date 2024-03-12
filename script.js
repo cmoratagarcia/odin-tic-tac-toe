@@ -20,6 +20,7 @@ const renderGame = (function () {
 
   closeDialog.addEventListener("click", () => {
     playerForm.close();
+    gameInstance.initializeGame();
   });
 
   submitBtn.addEventListener("click", () =>
@@ -204,7 +205,7 @@ const players = playerControls();
 function playGame() {
   let board;
 
-  function initializeGame(name1, name2) {
+  function initializeGame(name1 = "Player 1", name2 = "Player 2") {
     players.setPlayers(name1, name2);
     board = gameBoard();
     board.createBoard();
