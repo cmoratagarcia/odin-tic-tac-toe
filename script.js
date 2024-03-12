@@ -1,5 +1,6 @@
 //Rendering
 const renderGame = (function () {
+  //DOM elements
   const submitBtn = document.querySelector(".submit");
   const playerOne = document.querySelector("#player1");
   const playerTwo = document.querySelector("#player2");
@@ -10,6 +11,7 @@ const renderGame = (function () {
   const closeDialog = document.querySelector(".close-dialog");
   const container = document.querySelector(".container");
 
+  //Open the player name modal on page load
   function openModal() {
     playerForm.showModal();
   }
@@ -25,14 +27,14 @@ const renderGame = (function () {
   );
 
   newGame.addEventListener("click", () => {
-    container.innerHTML = "";
-    formContent.reset();
+    container.innerHTML = ""; //Clear the game board
+    formContent.reset(); //Reset player names
     openModal();
   });
 
   rematch.addEventListener("click", () => {
     clearCells();
-    players.initializeActive();
+    players.initializeActive(); //Reset active player back to 1
     showStatus(
       "turn",
       players.getActivePlayer().name,
@@ -61,12 +63,13 @@ const renderGame = (function () {
   function addToken(cell, token) {
     cell.innerText = token;
     if (token === "X") {
-      cell.classList.add("player-one");
-    } else {
+      cell.classList.add("player-one"); //Token colors
+    } else if (token === "O") {
       cell.classList.add("player-two");
     }
   }
 
+  //Game status messages
   function showStatus(status, player, token) {
     const turn = document.querySelector(".turn");
 
@@ -152,6 +155,7 @@ function gameBoard() {
       }
     }
     if (filtered.length < 1) {
+      //Check if there are any empty cells
       return true;
     }
     return false;
@@ -160,7 +164,7 @@ function gameBoard() {
   return { createBoard, checkWin, checkTie };
 }
 
-//Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
+//Function for handling player data
 function playerControls() {
   const players = [
     {
@@ -180,6 +184,7 @@ function playerControls() {
   let activePlayer = players[0];
 
   function initializeActive() {
+    //Always start the game with player 1
     activePlayer = players[0];
   }
 
@@ -226,7 +231,7 @@ function playGame() {
         players.switchTurn();
         renderGame.showStatus(
           "turn",
-          players.getActivePlayer().name,
+          players.getActivePlayer().name, //Get the active player again after each round
           players.getActivePlayer().userToken
         );
       }
