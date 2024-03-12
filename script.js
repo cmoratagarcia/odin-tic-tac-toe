@@ -30,6 +30,7 @@ const renderGame = (function () {
   newGame.addEventListener("click", () => {
     container.innerHTML = ""; //Clear the game board
     formContent.reset(); //Reset player names
+    players.initializeActive();
     openModal();
   });
 
