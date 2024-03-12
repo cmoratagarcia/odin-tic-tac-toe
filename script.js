@@ -29,9 +29,12 @@ const renderGame = (function () {
     formContent.reset();
     openModal();
   });
-  // rematch.addEventListener("click", () => {
-  //   playGame();
-  // });
+
+  rematch.addEventListener("click", () => {
+    clearCells();
+    players.initializeActive();
+    showStatus("turn", players.getActivePlayer().name);
+  });
 
   function createCell() {
     let cell = document.createElement("button");
@@ -164,8 +167,11 @@ function playerControls() {
     players[0].name = player1;
     players[1].name = player2;
   }
-
   let activePlayer = players[0];
+
+  function initializeActive() {
+    activePlayer = players[0];
+  }
 
   function switchTurn() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -173,13 +179,14 @@ function playerControls() {
 
   const getActivePlayer = () => activePlayer;
 
-  return { setPlayers, switchTurn, getActivePlayer };
+  return { setPlayers, initializeActive, switchTurn, getActivePlayer };
 }
 
 //Game flow
 const gameInstance = playGame();
+const players = playerControls();
+
 function playGame() {
-  let players = playerControls();
   let game;
 
   function initializeGame(name1, name2) {
@@ -199,10 +206,8 @@ function playGame() {
 
       if (game.checkWin()) {
         renderGame.showStatus("winner", activePlayer.name);
-        setTimeout(() => renderGame.clearCells(), 500);
       } else if (game.checkTie()) {
         renderGame.showStatus("tie");
-        setTimeout(() => renderGame.clearCells(), 500);
       } else {
         players.switchTurn();
         renderGame.showStatus("turn", players.getActivePlayer().name);
