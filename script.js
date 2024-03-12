@@ -8,7 +8,7 @@ const renderGame = (function () {
   const rematch = document.querySelector(".play-again");
   const playerForm = document.querySelector("dialog");
   const formContent = document.querySelector(".player-form");
-  const closeDialog = document.querySelector(".close-dialog");
+  const closeModal = document.querySelector(".close-dialog");
   const container = document.querySelector(".container");
 
   //Open the player name modal on page load
@@ -18,7 +18,7 @@ const renderGame = (function () {
 
   window.onload = openModal;
 
-  closeDialog.addEventListener("click", () => {
+  closeModal.addEventListener("click", () => {
     playerForm.close();
     gameInstance.initializeGame();
   });
@@ -39,7 +39,7 @@ const renderGame = (function () {
     showStatus(
       "turn",
       players.getActivePlayer().name,
-      players.getActivePlayer().userToken
+      players.getActivePlayer().userTokenF
     );
   });
 
@@ -53,6 +53,15 @@ const renderGame = (function () {
     return cell;
   }
 
+  function addToken(cell, token) {
+    cell.innerText = token;
+    if (token === "X") {
+      cell.classList.add("player-one"); //Token colors
+    } else if (token === "O") {
+      cell.classList.add("player-two");
+    }
+  }
+
   function clearCells() {
     let cellArray = document.querySelectorAll(".cell");
     cellArray.forEach((cell) => {
@@ -61,13 +70,11 @@ const renderGame = (function () {
     });
   }
 
-  function addToken(cell, token) {
-    cell.innerText = token;
-    if (token === "X") {
-      cell.classList.add("player-one"); //Token colors
-    } else if (token === "O") {
-      cell.classList.add("player-two");
-    }
+  function lockCells() {
+    let cellArray = document.querySelectorAll(".cell");
+    cellArray.forEach((cell) => {
+      cell.setAttribute("disabled", true);
+    });
   }
 
   //Game status messages
@@ -92,9 +99,10 @@ const renderGame = (function () {
 
   return {
     createCell,
-    clearCells,
-    showStatus,
     addToken,
+    clearCells,
+    lockCells,
+    showStatus,
   };
 })();
 
@@ -206,6 +214,7 @@ function playGame() {
   let board;
 
   function initializeGame(name1 = "Player 1", name2 = "Player 2") {
+    //Default parameters in case the modal is closed
     players.setPlayers(name1, name2);
     board = gameBoard();
     board.createBoard();
@@ -226,8 +235,10 @@ function playGame() {
 
       if (board.checkWin()) {
         renderGame.showStatus("winner", activePlayer.name);
+        renderGame.lockCells();
       } else if (board.checkTie()) {
         renderGame.showStatus("tie");
+        renderGame.lockCells();
       } else {
         players.switchTurn();
         renderGame.showStatus(
