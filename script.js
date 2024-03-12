@@ -11,6 +11,9 @@ const renderGame = (function () {
   const closeModal = document.querySelector(".close-dialog");
   const container = document.querySelector(".container");
 
+  // Initialize game board to prevent duplicates
+  let board = null;
+
   //Open the player name modal on page load
   function openModal() {
     playerForm.showModal();
@@ -20,7 +23,9 @@ const renderGame = (function () {
 
   closeModal.addEventListener("click", () => {
     playerForm.close();
-    gameInstance.initializeGame();
+    if (!board) {
+      gameInstance.initializeGame(); //Only create board if not done before
+    }
   });
 
   submitBtn.addEventListener("click", () =>
@@ -30,6 +35,7 @@ const renderGame = (function () {
   newGame.addEventListener("click", () => {
     container.innerHTML = ""; //Clear the game board
     formContent.reset(); //Reset player names
+    board = null; // Reset the game board reference
     players.initializeActive();
     openModal();
   });
@@ -222,13 +228,15 @@ const gameInstance = playGame();
 const players = playerControls();
 
 function playGame() {
-  let board;
+  let board = null;
 
   function initializeGame(name1 = "Player 1", name2 = "Player 2") {
     //Default parameters in case the modal is closed
     players.setPlayers(name1, name2);
-    board = gameBoard();
-    board.createBoard();
+    if (!board) {
+      board = gameBoard();
+      board.createBoard();
+    }
     renderGame.showStatus(
       "turn",
       players.getActivePlayer().name,
