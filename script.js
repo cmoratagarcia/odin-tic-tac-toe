@@ -87,7 +87,7 @@ const renderGame = (function () {
 
     switch (status) {
       case "turn":
-        turn.innerText = `${token}: ${player}'s turn`;
+        turn.innerText = `Current player: ${player} (${token})`;
         break;
       case "taken":
         turn.innerText = `This cell has been claimed!`;
@@ -231,7 +231,7 @@ function playGame() {
   let board = null;
 
   function initializeGame(name1 = "Player 1", name2 = "Player 2") {
-    //Default parameters in case the modal is closed
+    //Default parameters in case the modal is closed withot entering names
     players.setPlayers(name1, name2);
     if (!board) {
       board = gameBoard();
