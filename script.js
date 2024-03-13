@@ -33,10 +33,9 @@ const renderGame = (function () {
   );
 
   newGame.addEventListener("click", () => {
-    container.innerHTML = ""; //Clear the game board
+    resetGame();
     formContent.reset(); //Reset player names
     board = null; // Reset the game board reference
-    players.initializeActive();
     openModal();
   });
 

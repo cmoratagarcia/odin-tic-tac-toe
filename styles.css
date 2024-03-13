@@ -30,18 +30,16 @@ button {
 }
 
 .turn {
-font-size: 40px;
-text-align: center;
+    font-size: 40px;
+    text-align: center;
 }
 
 .cell {
     font-family: "Permanent Marker", sans-serif;
     font-size: 30px;
     height: 100px;
-  }
+}
   
-  
-
 .buttons {
     margin: 20px;
     display: flex;
@@ -78,16 +76,14 @@ text-align: center;
     }
 
     .turn {
-        font-size: 46px;
-        width: 350px;
-        margin-left: 40px;
+        font-size: 42px;
+        margin-left: 38px;
         margin-bottom: 10%;
     }
 
     .new-game, .play-again {
         min-width: 170px;
         height: 50px;
-        font-size: 24px;
     }
 
   }
@@ -116,7 +112,7 @@ dialog {
 dialog::backdrop {
     background-color: white;
     opacity: 100%;
-  }
+}
 
 .close-dialog {
     cursor: pointer;
